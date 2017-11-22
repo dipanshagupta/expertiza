@@ -209,10 +209,10 @@ class ResponseController < ApplicationController
     @surveys = []
     [CourseParticipant, AssignmentParticipant].each do |item|
       # Get all the participant(course or assignment) entries for this user
-      participant_type = item.where(user_id: session[:user].id)
-      next unless participant_type
-      participant_type.each do |p|
-        survey_deployment_type = participant_type == CourseParticipant ? AssignmentSurveyDeployment : CourseSurveyDeployment
+      participants = item.where(user_id: session[:user].id)
+      next unless participants
+      participants.each do |p|
+        survey_deployment_type = item == CourseParticipant ? AssignmentSurveyDeployment : CourseSurveyDeployment
         survey_deployments = survey_deployment_type.where(parent_id: p.parent_id)
         next unless survey_deployments
         survey_deployments.each do |survey_deployment|
